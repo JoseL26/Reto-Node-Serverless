@@ -10,11 +10,13 @@ authorName: 'Serverless, inc.'
 authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 -->
 
-# Serverless Framework Node HTTP API on AWS
+# Serverless Framework, Node, HTTP API, Dynamo y AWS
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+Este proyecto muestra como realizar un simple CRUD utilizando Node.js y desplegarlo en AWS utilizando Serverless Framework.
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+A lo largo de este documento se va a mostrar las tecnologias que se ha utilizado
+para la realización del proyecto, como dependencias, libreías y base de datos.
+
 
 ## Usage
 
