@@ -118,12 +118,6 @@ arn:aws:dynamodb:sa-east-1:022231376384:table/usersTable
 ```
 es la tabla que se obtiene desde la interfaz de DynamoDB en AWS.
 
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
 ## Axios
 
 Instalamos Axios para poder realizar solicitudes HTTP a SWAPI y poder mostrar los datos de los personajes de Star Wars.
