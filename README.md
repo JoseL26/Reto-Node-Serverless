@@ -146,6 +146,16 @@ https://swapi.py4e.com/documentation
 
 ## ENDPOINTS
 Los siguientes endpoints se pueden consumir para crear, mostrar todos los datos, mostrar datos en base a un ID, actualizar y eliminar.
+Se recomienda realizar primero el ingreso de un usuario con los siguientes valores:
+```
+{
+    "nombre": "Nuevo Usuario",
+    "apellido": "Apellidos a ingresar",
+    "correo": "Nuevo correo"
+}
+```
+Una vez ingresado los campos, devolverá el usuario con su Id, con el Id podemos reemplazar en el parametro "{id}" y realizar las solicitudes.
+
 ```
   POST - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/addUser
   GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users
@@ -153,8 +163,19 @@ Los siguientes endpoints se pueden consumir para crear, mostrar todos los datos,
   PUT - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users/{id}
   DELETE - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users/{id}
 ```
-Y los siguientes endpoints se muesta el consumo de SWAPI, se visualiza todos los datos y también datos según el ID, para este último se muestran los atributos en español.
+Y los siguientes endpoints se muesta el consumo de SWAPI, se visualiza todos los datos y también datos según el ID (desde el 1 hasta el 82), para este último se muestran los atributos en español.
 ```  
   GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/people
   GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/people/{id}
+```
+
+Se recomienda utilizar Postman o Insomnia para poder realizar las pruebas de endpoints.
+
+Se puede descargar Postman desde la siguiente dirección:
+```
+https://www.postman.com/downloads/
+```
+Se puede descargar Insomnia desde la siguiente dirección:
+```
+https://insomnia.rest/download
 ```
