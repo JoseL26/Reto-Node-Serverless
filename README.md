@@ -78,34 +78,13 @@ After successful deployment, you can call the created application via HTTP:
 ```bash
 curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
 ```
-
-Which should result in response similar to the following (removed `input` content for brevity):
-
-```json
-resources:
-  Resources:
-    usersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: usersTable
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-```
-
 ## DynamoDB
 
 DynamoDB es un servicio de base de datos NoSQL que nos ofrece AWS para almacenar datos.
 
 Dentro del archivo serverless.yml agregamos las siguientes lineas de comado para crear una tabla en DynamoDB
 
-```json
+```
 resources:
   Resources:
     usersTable:
@@ -128,7 +107,7 @@ Está información se puede explicar mejor desde la documentación de serverless
 https://www.serverless.com/framework/docs/providers/aws/guide/resources
 ```
 Agregamos permisos para que el proyecto pueda guardar datos dentro de la tabla creada en la siguiente linea:
-```json
+```
 provider:
   name: aws
   runtime: nodejs18.x
@@ -161,7 +140,7 @@ Primero debemos instalarlo ejecutando la siguiente linea:
 ```
 Una vez instalado, podemos obtener los datos de SWAPI y mostrarlos, como por ejemplo:
 
-```json
+```
 const resultado = await axios.get('https://swapi.dev/api/people/');
       const peopleDatos = resultado.data;
 
