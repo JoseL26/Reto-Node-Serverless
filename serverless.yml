@@ -1,0 +1,89 @@
+service: aws-reto-serverless-node
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:sa-east-1:022231376384:table/usersTable
+
+functions:
+  api:
+    handler: src/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  #funciones (o endpoints) para obtener los datos de SWAPI y mostrar los atributos en inglés y español.
+  getPeople:
+    handler: swapi/getPeople.getPeople
+    events:
+      - httpApi:
+          path: /people
+          method: get
+
+  getPeopleByID:
+    handler: swapi/getPeopleByID.getPeopleByID
+    events:
+      - httpApi:
+          path: /people/{id}
+          method: get
+
+  #funciones (o endpoints) para ingresar, actualizar, leer o borrar en la base de datos Dynamo
+  createUser:
+    handler: src/addUser.addUser
+    events:
+      - httpApi:
+          path: /addUser
+          method: post
+
+  getUser:
+    handler: src/getUser.getUser
+    events:
+      - httpApi:
+          path: /Users
+          method: get
+
+  getUserByID:
+    handler: src/getUserByID.getUserByID
+    events:
+      - httpApi:
+          path: /Users/{id}
+          method: get
+
+  updateUser:
+    handler: src/updateUser.updateUser
+    events:
+      - httpApi:
+          path: /Users/{id}
+          method: put
+
+  deleteUser:
+    handler: src/deleteUser.deleteUser
+    events:
+      - httpApi:
+          path: /Users/{id}
+          method: delete
+
+#Creacion de una tabla en la Base de datos Dynamo
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
