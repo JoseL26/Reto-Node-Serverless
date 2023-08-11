@@ -71,13 +71,6 @@ Nos devolverá un endpoint y podemos acceder a él por medio de metodos GET, POS
 	GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/
 ```
 
-### Invocation
-
-After successful deployment, you can call the created application via HTTP:
-
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
 ## DynamoDB
 
 DynamoDB es un servicio de base de datos NoSQL que nos ofrece AWS para almacenar datos.
