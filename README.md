@@ -14,16 +14,15 @@ authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 
 Este proyecto muestra como realizar un simple CRUD utilizando Node.js y desplegarlo en AWS utilizando Serverless Framework.
 
-A lo largo de este documento se va a mostrar las tecnologias que se ha utilizado
-para la realización del proyecto, como dependencias, libreías y base de datos.
+A lo largo de este documento se va a mostrar las tecnologias que se ha utilizado para la realización del proyecto, como dependencias, libreías y base de datos.
 
 
-## Usage
+## Node.js
 
-### Deployment
+Primero se debe instalar Node.js. Para eso, se puede instalar desde su plataforma 
 
 ```
-$ serverless deploy
+[$ serverless deploy](https://nodejs.org/es/download)
 ```
 
 After deploying, you should see output similar to:
