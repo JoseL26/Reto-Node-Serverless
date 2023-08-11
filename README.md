@@ -22,22 +22,54 @@ A lo largo de este documento se va a mostrar las tecnologias que se ha utilizado
 Primero se debe instalar Node.js. Para eso, se puede instalar desde su plataforma 
 
 ```
-[$ serverless deploy](https://nodejs.org/es/download)
+https://nodejs.org/es/download
 ```
 
-After deploying, you should see output similar to:
+## CLI AWS
 
+Este proyecto ha sido realizado en Windows 10, asi que para obtener la AWS CLI se ha descargado el instalador desde la web oficial de Amazon:
+
+```
+https://aws.amazon.com/es/cli/
+```
+Una vez descargado, se procede a configurar las clases de acceso, el cual se obtiene desde la plataforma de Amazon, en el panel de IAM, para ser más especifico. Abrimos la consola de comandos y escribimos el comando:
+```
+aws configure 
+```
+y procedemos a ingresar las claves de acceso. Esto lo realizamos para poder utilizar los servicios de AWS.
+
+## Serverless Framework
+
+Ahora se debe instalar el framework Serverless. Para esto se abre la consola de comandos y se ejecuta la siguiente linea de comando: 
+```
+npm install -g serverless
+```
+Una vez instalado se procede a crear un nuevo proyecto serverless ejecutando serverless se mostraran varias opciones, para este proyecto se utilizó AWS - Node.js - HTTP API , y para finalizar se coloca el nombre del proyecto.
+
+Una vez creado, se abre el proyecto con el IDE que más les guste utilizar. Los archivos principales que se muestran al crear el proyecto son index.js, aquí se puede visualizar una funcion llamado handler; el otro archivo es el serverless.yml, en este archivo se puede realizar la configuracion de la nube donde va a ser subido y las funciones que sirven como un enrutador.
+
+Antes de desplegar el proyecto se debe indicar la region donde se va a subir, por ejemplo region:sa-east-1
+y quedaría así:
 ```bash
-Deploying aws-node-http-api-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-http-api-project-dev (152s)
-
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: aws-node-http-api-project-dev-hello (1.9 kB)
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
 ```
+Nota: La región sa-east-1 se utilizó para este proyecto, puede cambiar dependiendo de la región que cada uno quiera almacenar sus datos.
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
+Para desplegar el proyecto en la nube se ejecuta el siguiente comando: 
+```
+serverless deploy
+```
+para poder ver los mensajes por consola, y ver como está subiendo el codigo, se puede agregar --verbose
+```
+serverless deploy --verbose
+```
+Nos devolverá un endpoint y podemos acceder a él por medio de metodos GET, POST, PUT o DELETE.
+```bash
+	GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/
+```
 
 ### Invocation
 
@@ -50,23 +82,69 @@ curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
 Which should result in response similar to the following (removed `input` content for brevity):
 
 ```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
-  }
-}
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 ```
 
-### Local development
+## DynamoDB
 
-You can invoke your function locally by using the following command:
+DynamoDB es un servicio de base de datos NoSQL que nos ofrece AWS para almacenar datos.
 
-```bash
-serverless invoke local --function hello
+Dentro del archivo serverless.yml agregamos las siguientes lineas de comado para crear una tabla en DynamoDB
+
+```json
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 ```
 
-Which should result in response similar to the following:
+Está información se puede explicar mejor desde la documentación de serverless framework:
+```
+https://www.serverless.com/framework/docs/providers/aws/guide/resources
+```
+Agregamos permisos para que el proyecto pueda guardar datos dentro de la tabla creada en la siguiente linea:
+```json
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:sa-east-1:022231376384:table/usersTable
+```
+con iamRoleStatements brindamos permisos al proyecto para poder escribir dentro de la tabla, y 
+```
+arn:aws:dynamodb:sa-east-1:022231376384:table/usersTable
+```
+es la tabla que se obtiene desde la interfaz de DynamoDB en AWS.
 
 ```
 {
@@ -74,20 +152,28 @@ Which should result in response similar to the following:
   "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
 }
 ```
+## Axios
 
+Instalamos Axios para poder realizar solicitudes HTTP a SWAPI y poder mostrar los datos de los personajes de Star Wars.
+Primero debemos instalarlo ejecutando la siguiente linea:
+```
+	npm install axios
+```
+Una vez instalado, podemos obtener los datos de SWAPI y mostrarlos, como por ejemplo:
 
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
+```json
+const resultado = await axios.get('https://swapi.dev/api/people/');
+      const peopleDatos = resultado.data;
 
-```bash
-serverless plugin install -n serverless-offline
+      return {
+        statusCode: 200,
+        body: JSON.stringify(peopleDatos),
+      };
 ```
 
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
+## SWAPI
 
-After installation, you can start local emulation with:
-
+Es una API publica, brinda datos relacionados con el universo de Star Wars. Se puede realizar solicitudes GET para poder practicar el consumo de API's. Se puede obtener más información desde la documentación
 ```
-serverless offline
+https://swapi.py4e.com/documentation
 ```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
