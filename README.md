@@ -149,3 +149,18 @@ Es una API publica, brinda datos relacionados con el universo de Star Wars. Se p
 ```
 https://swapi.py4e.com/documentation
 ```
+
+## ENDPOINTS
+Los siguientes endpoints se pueden consumir para crear, mostrar todos los datos, mostrar datos en base a un ID, actualizar y eliminar.
+```
+  POST - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/addUser
+  GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users
+  GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users/{id}
+  PUT - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users/{id}
+  DELETE - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/Users/{id}
+```
+Y los siguientes endpoints se muesta el consumo de SWAPI, se visualiza todos los datos y también datos según el ID, para este último se muestran los atributos en español.
+```  
+  GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/people
+  GET - https://t4wrtanfjf.execute-api.sa-east-1.amazonaws.com/people/{id}
+```
